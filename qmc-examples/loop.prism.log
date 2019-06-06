@@ -1,0 +1,8 @@
+QMC
+formulas:
+constants:
+  ampdamp=SUPEROPERATOR_LIST(ARRAY(2(TYPE_INTEGER),E0,E1))
+  E0 (positional(|0>_2 <0|_2 + |1>_2 <1|_2/sqrt(2), null, 0, 0))=ADD(MULTIPLY(BASE_KET(0(TYPE_INTEGER) (positional(0, null, 0, 0)),2(TYPE_INTEGER) (positional(2, null, 0, 0))),BASE_BRA(0(TYPE_INTEGER) (positional(0, null, 0, 0)),2(TYPE_INTEGER) (positional(2, null, 0, 0)))),DIVIDE(MULTIPLY(BASE_KET(1(TYPE_INTEGER) (positional(1, null, 0, 0)),2(TYPE_INTEGER) (positional(2, null, 0, 0))),BASE_BRA(1(TYPE_INTEGER) (positional(1, null, 0, 0)),2(TYPE_INTEGER) (positional(2, null, 0, 0)))),PRISM_POW(2(TYPE_INTEGER) (positional(2, null, 0, 0)),0.5(TYPE_REAL)) (positional(sqrt(2), null, 0, 0))) (positional(|1>_2 <1|_2/sqrt(2), null, 0, 0))) (positional(|0>_2 <0|_2 + |1>_2 <1|_2/sqrt(2), null, 0, 0))
+  E1 (positional(|0>_2 <1|_2/sqrt(2), null, 0, 0))=DIVIDE(MULTIPLY(BASE_KET(0(TYPE_INTEGER) (positional(0, null, 0, 0)),2(TYPE_INTEGER) (positional(2, null, 0, 0))),BASE_BRA(1(TYPE_INTEGER) (positional(1, null, 0, 0)),2(TYPE_INTEGER) (positional(2, null, 0, 0)))),PRISM_POW(2(TYPE_INTEGER) (positional(2, null, 0, 0)),0.5(TYPE_REAL)) (positional(sqrt(2), null, 0, 0))) (positional(|0>_2 <1|_2/sqrt(2), null, 0, 0))
+labels:
+
