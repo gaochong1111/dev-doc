@@ -1,5 +1,6 @@
 # 关键数据结构设计
 ## 模型 ModelPRISM
+- Q1: ModelPRISMQMC 定义并没有在QMC求解过程中使用?
 ### 属性
 - semanticsType:Semantics
 - modules:List<Module>
@@ -17,15 +18,15 @@
 - players:List<PlayerDefinition>
 - rateIdentifier:Expression
 - rateLabel
-### 方法
+### 关键方法
 - build(Builder) 根据builder初始化模型
-    - 初始化 rateLabel=rateIdentifier=new ID...
-    - 初始化 player=builder.palyer...
-    - 初始化 formulas.constants by Options
+    - 初始化 rateLabel=rateIdentifier=new ID... [TODO]
+    - 初始化 player=builder.palyer... [TODO]
+    - 初始化 formulas.constants by Options [TODO]
     - 初始化 unspecifiedConsts, specifiedConsts
-    - 初始化 rewards
-    - 初始化 formulas, formulas.check(), formulas.expand
-    - expandModules
+    - 初始化 rewards [TODO]
+    - 初始化 formulas, formulas.check(), formulas.expand [TODO]
+    - expandModules 
     - 初始化 semanticsType
     - 初始化 globalVairables, globalInitValues, expandGlobalVariables 
     - 初始化 system, system.setModel, checkSystemDefinition
@@ -35,4 +36,64 @@
     - replaceRewardsConstants(formulas, specifiedConsts) 
     - EngineDD fixUnchangedVariables ???
     - createProperties
--
+- read(Object part, InputStream inputs...)
+    - Questions
+        - q1: what is the part?
+        - q2: inputs只使用了第一个，其意义是什么?
+    - parser = new PrismParser()
+    - parser.parseModel()
+
+## PrismParser
+### 属性
+- sdcount, modelcount initcount: int
+- moduleNames, playerNames, rewardsNames, otherNames: List<String>
+- expressionToken: Token
+- model: ModelPRISM
+- part: Object
+    what is it?
+### 关键方法
+- parseModel
+    - privParseModel
+        - 定义构建模型所需要的变量
+        - actualParser
+            - model[0]=parseModelType: CTMC, CTMDP, DTMC, IMC, MA, MDP, NONDETERMINISTIC, PROBABILISTIC, PTA, STOCHASTIC, SMG
+                return type:Semantics;
+            - parseConstant(formulae): constant, prob, rate
+                - prob or rate is equivalent to constant double
+                - id is identifier, value is the Expression, type is the TYPE.
+                - othersName.add(id.toString())
+                - formulae.addConstant(id.toString(), value, type)
+            - parseLabel(formulas): label
+                - id is identifier, value is the Eepression
+                - othersName.add(id.toString())
+                - formulae.addLabel(id.toString(), value)
+            - parseGlobal(globalVariables:Map<Expression, JANIType>, globalInitValues:Map<Expression, Expression>): global
+                - parseVariableDeclaration(globalVariables, globalInitValues)
+                    - id is the IdentifierExpression, initValue is the Expression, type is the TYPE.
+                    - othersName.add(id.name)
+                    - globalVariables.put(id, type)
+                    - globalInitValues.put(id, initValue)
+            - parseFormula(formulae): formula
+                - id is the IdentifierExpression, value is the Expression
+                - othersName.add(id.name)
+                - formulae.addFormula(id.toString(), value)
+            - parseModule(modules): module ID ...
+            - parseRewards(rewards): rewards ID ...
+            - parsePlayers(player): player ID ...
+            - parseInit(): init 状态转移？
+            - parseSystem(): system ID ...
+
+## Formula关键
+### 属性
+    - formulas:Map<Expression,Expression>
+    - constants:Map<Expression,Expression>
+    - constantTypes:Map<Expression,JANIType>
+    - labels:Map<Expression,Expression>
+### 关键方法
+    - check() [donging]
+        - checkCyclic() 常量定义是否有环依赖？？？
+        - checkNonConstantConst() 检查常量定义是否可计算常量值
+    - expandFormulas()
+    - expandConstants()
+## Semantics enum
+- SemanticsQMC implements SemanticsDTMC, SemanticsDiscreteTime, SemanticsMarkovChain
