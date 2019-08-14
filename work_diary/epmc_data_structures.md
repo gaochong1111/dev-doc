@@ -43,7 +43,13 @@
     - 初始化 multipleInit, initialStates:Expression 
     - replaceRewardsConstants(formulas, specifiedConsts) 
     - EngineDD fixUnchangedVariables ???
-    - createProperties [DOIGN]
+    - createProperties [DOING]
+        - properties 添加constant, formulas, label的定义
+        - properties.expandAndCheckWithDefinedCheck()
+            - checkCyclic()
+            - expand()
+            - checkNonConstantConst()
+            - checkUndefinedConst()
 - read(Object part, InputStream inputs...)
     - Questions
         - q1: what is the part?
@@ -106,5 +112,26 @@
             - expand(value, seen, formulas)
                 对formulas, constants, labels的值进行计算并展开
     - expandConstants() 根据constants的非空定义进行展开
+## PropertiesImpl
+### 属性
+    - properties:Map<RawProperty, Expression>
+    - names:Set<String>
+    - constants:Map<String, Expression>
+    - constantTypes:Map<String, Type>
+    - formulas:Map<String, Expression>
+    - labels:Map<String, Expression>
+    - model:ModelPRISM
+### 关键方法
+    - parseProperties(Object part, InputStream input)
+        - property = UtilOptions.getInstance(OptionModelchecker.PROPERTY_INPUT_TYPE): create property by options
+        - property.readProperties: get RawProperties
+            - propertyPRISM.readProperties()
+        - parseProperties(rawProperties)
+            - UtilModelChecker.parseExpression(definition)
+                - property = UtilOptions.getInstance(OptionModelchecker.PROPERTY_INPUT_TYPE): create property by options
+                - property.parseExpression(stream)
+                -
+        - expand
+    - parseProperties(Object part, RawProperties rawProperties)
 ## Semantics enum
 - SemanticsQMC implements SemanticsDTMC, SemanticsDiscreteTime, SemanticsMarkovChain
